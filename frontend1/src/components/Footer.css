@@ -1,0 +1,44 @@
+/* Footer Styling */
+.footer {
+    position: relative; /* Fixed positioning for consistent placement */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark translucent background */
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px; /* Adjusted padding for a smaller footer */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Slightly enhanced shadow for separation */
+    display: flex; /* Flexbox for alignment */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    flex-direction: column; /* Stack content vertically */
+  }
+  
+  /* Footer Heading Styling */
+  .footer h3 {
+    margin: 0;
+    font-size: 1.2em; /* Slightly smaller font size */
+    font-weight: bold;
+    color: rgba(255, 223, 88, 0.9); /* Tech yellow color */
+  }
+  
+  /* Footer Paragraph Styling */
+  .footer p {
+    margin: 5px 0; /* Reduced margin */
+    font-size: 0.8em; /* Slightly smaller font size */
+    color: rgba(255, 223, 88, 0.7); /* Tech yellow color */
+  }
+  
+  /* Footer Link Styling */
+  .footer a {
+    color: rgba(255, 223, 88, 0.9); /* Tech yellow color */
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  /* Footer Link Hover Effect */
+  .footer a:hover {
+    color: rgba(255, 223, 88, 1); /* Brighter tech yellow on hover */
+  }
+  

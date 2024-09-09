@@ -1,0 +1,86 @@
+/* styles/TeamMemberDashboard.css */
+body {
+  background-color: #fdf4d4; /* Soft yellow tech background */
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+h2 {
+  text-align: center;
+  color: #ffcc00;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+  background-color: #ffcc00;
+}
+
+thead th {
+  padding: 12px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: #333;
+}
+
+tbody td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fff6e6;
+}
+
+select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.error-message,
+.success-message {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.error-message {
+  color: #ff0000;
+}
+
+.success-message {
+  color: #008000;
+}
+
+@media (max-width: 768px) {
+  table {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 20px;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,97 @@
+/* Global styles for the dashboard */
+.dashboard-container {
+    padding: 20px;
+    background-color: #1a1a1a;  /* Dark background */
+    color: #f4c430;  /* Yellow tech theme */
+    font-family: 'Roboto', sans-serif;  /* Modern, clean font */
+  }
+  
+  /* Heading styles */
+  .dashboard-container h2,
+  .dashboard-container h3 {
+    color: #f4c430;
+    margin-bottom: 15px;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    color: #ff4c4c;  /* Red color for errors */
+    background-color: rgba(255, 76, 76, 0.1); /* Light red background */
+    border: 1px solid #ff4c4c;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  /* Table styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #333;  /* Slightly lighter background for tables */
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  thead {
+    background-color: #444;  /* Darker background for table headers */
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #555;  /* Border between rows */
+  }
+  
+  th {
+    color: #f4c430;
+  }
+  
+  td {
+    color: #f1f1f1;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #222;  /* Alternate row background color */
+  }
+  
+  tr:hover {
+    background-color: #555;  /* Highlight row on hover */
+  }
+  
+  /* Button styling */
+  button {
+    background-color: #f4c430;
+    color: #1a1a1a;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #e6b800;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.9rem;  /* Slightly smaller font size for tables */
+    }
+  
+    button {
+      padding: 6px 12px;  /* Adjust button padding */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    table {
+      font-size: 0.8rem;  /* Further reduce font size for very small screens */
+    }
+  
+    button {
+      padding: 5px 10px;  /* Further adjust button padding */
+    }
+  }
+  
