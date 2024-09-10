@@ -81,4 +81,4 @@ A user-friendly dashboard displays all assigned tasks, upcoming deadlines, and r
 #### Abhishek Srivastava: abhisheksrivastav596@gmail.com
 #### Ankit Saini: ankitsaini28052003@gmail.com
 #### Anoushka Gautam: anoushkagautam0404@gmail.com
-#### Manish Verma: manishv20@gmail.com
+#### Manish Vishwakarma: manishv20@gmail.com
