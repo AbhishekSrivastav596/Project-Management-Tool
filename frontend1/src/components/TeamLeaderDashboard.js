@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createTeam, assignTask, getTeamProgress, getTeamDetails, deleteTeam } from '../api/team.js';  // Import API calls
-import { getToken } from '../api/auth.js';  
+import { createTeam, deleteTask, assignTask, getTeamProgress, getTeamDetails, deleteTeam } from '../api/team.js';  
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 
@@ -13,14 +12,15 @@ const TeamLeaderDashboard = () => {
   const [members, setMembers] = useState('');
   const [task, setTask] = useState('');
   const [assignee, setAssignee] = useState('');
+  const [priority, setPriority] = useState('Important Task');
+  const [deadline, setDeadline] = useState('');
   const [teamProgress, setTeamProgress] = useState([]);
-  const [teamMembers, setTeamMembers] = useState([]);  // State to store team members
-  const [team, setTeam] = useState(null);  // State to store team details
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [team, setTeam] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    // Fetch team progress on component mount
     const fetchTeamProgress = async () => {
       try {
         const response = await getTeamProgress();
@@ -36,7 +36,6 @@ const TeamLeaderDashboard = () => {
 
     fetchTeamProgress();
 
-    // Fetch team details from backend
     const fetchTeamDetails = async () => {
       try {
         const response = await getTeamDetails();
@@ -52,7 +51,7 @@ const TeamLeaderDashboard = () => {
     };
 
     fetchTeamDetails();
-  }, []);
+  });
 
   const handleCreateTeam = async (e) => {
     e.preventDefault();
@@ -61,12 +60,10 @@ const TeamLeaderDashboard = () => {
       if (response.success) {
         setSuccessMessage('Team created successfully');
         setErrorMessage('');
-        setTeamName('');  
+        setTeamName('');
         setMembers('');
-        const newTeamMembers = members.split(',');
-        setTeamMembers(newTeamMembers);  // Update team members state
-        const newTeam = { name: teamName, members: newTeamMembers };
-        setTeam(newTeam);  // Update team state
+        setTeamMembers(members.split(','));
+        setTeam({ name: teamName, members: members.split(',') });
       } else {
         setErrorMessage(response.message || 'Error creating team');
         setSuccessMessage('');
@@ -80,13 +77,12 @@ const TeamLeaderDashboard = () => {
   const handleAssignTask = async (e) => {
     e.preventDefault();
     try {
-      const response = await assignTask({ task, assignee });
+      const response = await assignTask({ task, assignee, priority, deadline });
       if (response.success) {
         setSuccessMessage('Task assigned successfully');
         setErrorMessage('');
         setAssignee('');
         setTask('');
-        // Fetch the updated team progress
         const progressResponse = await getTeamProgress();
         if (progressResponse.success) {
           setTeamProgress(progressResponse.data);
@@ -109,8 +105,8 @@ const TeamLeaderDashboard = () => {
       if (response.success) {
         setSuccessMessage('Team deleted successfully');
         setErrorMessage('');
-        setTeam(null);  // Clear team state
-        setTeamMembers([]);  // Clear team members state
+        setTeam(null);
+        setTeamMembers([]);
       } else {
         setErrorMessage(response.message || 'Error deleting team');
         setSuccessMessage('');
@@ -121,14 +117,8 @@ const TeamLeaderDashboard = () => {
     }
   };
 
-  // Function to generate data for the pie chart
   const getPieChartData = () => {
-    const statusCounts = {
-      pending: 0,
-      completed: 0,
-      inProgress: 0,
-    };
-
+    const statusCounts = { pending: 0, completed: 0, inProgress: 0 };
     teamProgress.forEach(progress => {
       if (progress.status === 'Pending') statusCounts.pending += 1;
       if (progress.status === 'Completed') statusCounts.completed += 1;
@@ -143,54 +133,100 @@ const TeamLeaderDashboard = () => {
         hoverBackgroundColor: ['#FF4C61', '#2C8CC2', '#FFB844'],
         borderColor: '#1a1a1a',
         borderWidth: 1,
-      }]
+      }],
     };
+  };
+
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const response = await deleteTask(taskId);
+      if (response.success) {
+        setSuccessMessage('Task deleted successfully');
+        setErrorMessage('');
+        setTeamProgress(teamProgress.filter(task => task._id !== taskId));
+      } else {
+        setErrorMessage(response.message || 'Error deleting task');
+        setSuccessMessage('');
+      }
+    } catch (error) {
+      setErrorMessage('Error deleting task');
+      setSuccessMessage('');
+    }
   };
 
   return (
     <div className="team-leader-dashboard">
-      <h2>Team Leader Dashboard</h2>
+      {/* <div className="dashboard-sidebar">
+        <h3>Manager Workspace</h3>
+        <ul>
+        <li><a href="#view-progress">View Progress</a></li>
+          <li><a href="#create-team">Create Team</a></li>
+          <li><a href="#assign-task">Assign Task</a></li>
+          
+        </ul>
+      </div> */}
 
-      {/* Create Team Section */}
-      <div className="create-team">
-        <h3>Create Team</h3>
-        <form onSubmit={handleCreateTeam}>
-          <div className="form-group">
-            <label>Team Name:</label>
-            <input
-              type="text"
-              placeholder="Enter team name"
-              value={teamName}
-              onChange={(e) => setTeamName(e.target.value)}
-              required
-            />
+      <div className="dashboard-content">
+        <div className="chart-table-container">
+          <div className="team-progress">
+            <div className="chart-container">
+              <h3>Team Progress</h3>
+              <Pie data={getPieChartData()} />
+            </div>
           </div>
-          <div className="form-group">
-            <label>Members (comma-separated emails):</label>
-            <input
-              type="text"
-              placeholder="Enter team member emails"
-              value={members}
-              onChange={(e) => setMembers(e.target.value)}
-              required
-            />
+          
+          <div id="view-progress" className="team-progress-section">
+            <h3>View Progress</h3>
+            {teamProgress.length > 0 ? (
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Deadline</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {teamProgress.map((progress, index) => (
+                    <tr key={index}>
+                      <td>{progress.task}</td>
+                      <td>{progress.assignee}</td>
+                      <td>{progress.status}</td>
+                      <td>{progress.priority}</td>
+                      <td>{new Date(progress.deadline).toLocaleDateString()}</td>
+                      <td>
+                        <button onClick={() => handleDeleteTask(progress._id)}>Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : <p>No progress available</p>}
           </div>
-          <button type="submit">Create Team</button>
-        </form>
-      </div>
-
-      {/* Display Team Section */}
-      {team && (
-        <div className="team-details">
-          <h3>Team Details</h3>
-          <p><strong>Team Name:</strong> {team.name}</p>
-          <p><strong>Members:</strong> {team.members.join(', ')}</p>
-          <button onClick={handleDeleteTeam}>Delete Team</button>
         </div>
-      )}
+            
+        <div id="create-team" className="create-team">
+          <h3>Create Team</h3>
+          <form onSubmit={handleCreateTeam}>
+            <input type="text" value={teamName} onChange={(e) => setTeamName(e.target.value)} placeholder="Team Name" />
+            <input type="text" value={members} onChange={(e) => setMembers(e.target.value)} placeholder="Members (emails)" />
+            <button type="submit">Create</button>
+          </form>
+        </div>
 
-      {/* Assign Task Section */}
-      <div className="assign-task">
+        {team && (
+          <div id="team-details" className="team-details">
+            <h3>Team Details</h3>
+            <p><strong>Name:</strong> {team.name}</p>
+            <p><strong>Members:</strong> {team.members.join(', ')}</p>
+            <button onClick={handleDeleteTeam}>Delete Team</button>
+          </div>
+        )}
+
+        <div id="assign-task" className="assign-task">
         <h3>Assign Task</h3>
         <form onSubmit={handleAssignTask}>
           <div className="form-group">
@@ -219,60 +255,38 @@ const TeamLeaderDashboard = () => {
               ))}
             </select>
           </div>
+          <div className="form-group">
+            <label>Priority:</label>
+            <select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              required
+            >
+              <option value="Important Task">Important Task</option>
+              <option value="Very Important Task">Very Important Task</option>
+              <option value="Compulsory">Compulsory</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Deadline:</label>
+            <input
+              type="date"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+              required
+            />
+          </div>
 
           <button type="submit">Assign Task</button>
         </form>
-      </div>
-
-      {/* View Team Progress Section */}
-      <div className="team-progress">
-        <h3>View Team Progress</h3>
-        <div className="chart-container">
-          <Pie 
-            data={getPieChartData()} 
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'top',
-                  labels: {
-                    font: {
-                      size: 16,
-                      family: 'Roboto',
-                    },
-                    color: '#f4c430',
-                  },
-                },
-                tooltip: {
-                  callbacks: {
-                    label: (tooltipItem) => {
-                      const label = tooltipItem.label || '';
-                      const value = tooltipItem.raw || 0;
-                      return `${label}: ${value} tasks`;
-                    },
-                  },
-                  backgroundColor: '#222',
-                  titleColor: '#f4c430',
-                  bodyColor: '#f4c430',
-                  borderColor: '#444',
-                  borderWidth: 1,
-                },
-              },
-              elements: {
-                arc: {
-                  borderWidth: 1,
-                },
-              },
-            }}
-          />
         </div>
-      </div>
 
-      {/* Display Messages */}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      {successMessage && <p className="success-message">{successMessage}</p>}
+        {errorMessage && <p className="error">{errorMessage}</p>}
+        {successMessage && <p className="success">{successMessage}</p>}
+      </div>
     </div>
   );
 };
+
 
 export default TeamLeaderDashboard;

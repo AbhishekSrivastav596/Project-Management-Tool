@@ -67,7 +67,7 @@ const HomePage = () => {
         <section className="cta-section" id="cta">
           <h2 className="cta-heading">Start Your Journey Now</h2>
           <p className="cta-text">Join thousands of teams using our tool to manage projects more efficiently. Sign up today!</p>
-          {/* <button className="cta-button">Sign Up</button> */}
+          
         </section>
       </div>
     </div>

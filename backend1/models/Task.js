@@ -6,7 +6,7 @@ const TaskSchema = new mongoose.Schema({
         required: true,
     },
     assignee: {
-        type: String, // Assignee email
+        type: String, 
         required: true,
     },
     status: {
@@ -15,7 +15,16 @@ const TaskSchema = new mongoose.Schema({
         default: 'Pending',
     },
     leader: {
-        type: String, // Leader email
+        type: String, 
+        required: true,
+    },
+    priority: {
+        type: String,
+        enum: ['Important Task', 'Very Important Task', 'Compulsory'],
+        required: true,
+    },
+    deadline: {
+        type: Date,
         required: true,
     },
 });

@@ -1,4 +1,4 @@
-// frondend/src/api/admin.js
+
 
 import { getToken } from './auth';
 

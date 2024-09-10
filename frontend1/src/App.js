@@ -6,7 +6,7 @@ import Signup from './components/Signup';
 import NavBar from './components/NavBar';
 import TeamLeaderDashboard from './components/TeamLeaderDashboard';
 import TeamMemberDashboard from './components/TeamMemberDashboard';
-import AdminDashboard from './components/adminDashboard';  // Import AdminDashboard component
+import AdminDashboard from './components/adminDashboard';  
 import VideoBackground from './components/VideoBackground';
 import Footer from './components/Footer';
 import AboutUs from './components/AboutUs';

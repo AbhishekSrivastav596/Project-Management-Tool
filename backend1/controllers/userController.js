@@ -1,22 +1,10 @@
-// backend/controllers/userController.js
+
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Signup handler
-// const signup = async (req, res) => {
-//   const { name, email, password, role } = req.body;
-//   try {
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const user = new User({ name, email, password: hashedPassword, role });
-//     await user.save();
-//     res.status(201).json({ message: 'User registered' });
-//   } catch (error) {
-//     console.error('Error during signup:', error); // Log the error
-//     res.status(500).json({ error: error.message || 'Error registering user' });
-//   }
-// };
+
 
 const signup = async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -36,12 +24,12 @@ const signup = async (req, res) => {
       res.status(400).json({ message: 'Invalid admin name' });
     }
   } catch (error) {
-    console.error('Error during signup:', error); // Log the error
+    console.error('Error during signup:', error); 
     res.status(500).json({ error: error.message || 'Error registering user' });
   }
 };
 
-// Login handler
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -52,7 +40,7 @@ const login = async (req, res) => {
     const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token, role: user.role, userId: user._id });
   } catch (error) {
-    console.error('Error during login:', error); // Log the error
+    console.error('Error during login:', error);
     res.status(500).json({ error: error.message || 'Error logging in' });
   }
 };

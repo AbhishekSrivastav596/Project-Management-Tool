@@ -1,11 +1,11 @@
-import { getToken } from './auth'; // Import getToken from auth.js
+import { getToken } from './auth'; 
 
 export const createTeam = async (teamData) => {
     const response = await fetch('http://localhost:5000/api/teams', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`, // Include the JWT token
+            'Authorization': `Bearer ${getToken()}`,
         },
         body: JSON.stringify(teamData),
     });
@@ -27,7 +27,7 @@ export const assignTask = async (taskData) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`, // Include the JWT token
+            'Authorization': `Bearer ${getToken()}`, 
         },
         body: JSON.stringify(taskData),
     });
@@ -39,7 +39,7 @@ export const getTeamProgress = async () => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`, // Include the JWT token
+            'Authorization': `Bearer ${getToken()}`,
         },
     });
     return await response.json();
@@ -50,7 +50,16 @@ export const getTeamDetails = async () => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`, // Include the JWT token
+            'Authorization': `Bearer ${getToken()}`, 
+        },
+    });
+    return await response.json();
+};
+export const deleteTask = async (taskId) => {
+    const response = await fetch(`http://localhost:5000/api/task/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
         },
     });
     return await response.json();

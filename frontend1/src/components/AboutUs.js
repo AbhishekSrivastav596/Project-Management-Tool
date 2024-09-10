@@ -1,5 +1,5 @@
 import React from 'react';
-// import './AboutUs.css'; // Import the CSS for styling
+
 
 const AboutUs = () => {
   return (
@@ -23,7 +23,12 @@ const AboutUs = () => {
           </p>
           <h2 className="about-subheading-blue">Our Team</h2>
           <p className="about-paragraph-blue">
-            Our team consists of talented individuals from diverse backgrounds, including software engineers, designers, and project managers. Together, we bring a wealth of experience to the table, ensuring that our products meet the highest standards of quality and usability.
+           <ul>
+            <li>Abhishek Srivastava</li>
+            <li>Ankit Saini</li>
+            <li>Anoushka Gautam</li>
+            <li>Manish Vishwakarma</li>
+           </ul>
           </p>
         </div>
       </div>

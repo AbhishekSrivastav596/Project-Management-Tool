@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from 'react';
-import './Videobg.css';  // Ensure this CSS file includes styles for the video
+import './Videobg.css';  
 
 const VideoBackground = ({ onVideoLoad }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.playbackRate = 0.5;  // Adjust this value to control the speed (0.5 is half speed)
+      videoRef.current.playbackRate = 0.5;  
       const handleLoadedData = () => {
         if (onVideoLoad) {
           onVideoLoad();
@@ -14,7 +14,7 @@ const VideoBackground = ({ onVideoLoad }) => {
       };
       videoRef.current.addEventListener('loadeddata', handleLoadedData);
 
-      // Cleanup event listener on component unmount
+   
       return () => {
         videoRef.current.removeEventListener('loadeddata', handleLoadedData);
       };

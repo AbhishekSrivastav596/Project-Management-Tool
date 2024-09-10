@@ -32,8 +32,22 @@ const getAllTeams = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { userId } = req.params;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Delete the user
     await User.findByIdAndDelete(userId);
-    res.status(200).json({ message: 'User deleted successfully' });
+
+    // Delete all tasks created by the user
+    await Task.deleteMany({ leader: user.email });
+
+    // Delete all teams created by the user
+    await Team.deleteMany({ leader: user.email });
+
+    res.status(200).json({ message: 'User, tasks, and teams deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

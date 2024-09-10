@@ -1,18 +1,24 @@
-// backend/controllers/TeamController.js
+
 
 const Team = require('../models/Team');
 const Task = require('../models/Task');
+const { sendEmail } = require('../services/emailService');
 
 const createTeam = async (req, res) => {
   try {
     const { name, members } = req.body;
-    const leader = req.user.email; // Assuming req.user contains the authenticated user's info
+    const leader = req.user.email; 
     const exitstingTeam=await Team.findOne({leader});
     if(exitstingTeam){
       return res.status(400).json({ success: false, message: 'Team already exists' });
     }
     const team = new Team({ name, members, leader });
     await team.save();
+    const subject=`You have been added to the team: ${name}`;
+    const text=`Hello,\n\n You have been added to the team "${name}" by ${leader}`;
+    members.forEach(member=>{
+      sendEmail(member, subject,text);
+    });
 
     res.status(201).json({ success: true, data: team });
   } catch (error) {
@@ -21,7 +27,7 @@ const createTeam = async (req, res) => {
 };
 
 const deleteTeam = async (req, res) => {
-  const userEmail = req.user.email;  // Assuming req.user contains the authenticated user's info
+  const userEmail = req.user.email;  
 
   try {
     await Task.deleteMany({ leader: userEmail});
@@ -36,20 +42,24 @@ const deleteTeam = async (req, res) => {
 };
 
 const assignTask = async (req, res) => {
-  const { task, assignee } = req.body;
+  const { task, assignee, priority, deadline } = req.body;
   try {
-    const leader = req.user.email; // Get the leader's email from the authenticated user
-    const newTask = new Task({ task, assignee, leader });
+    const leader = req.user.email; 
+    const newTask = new Task({ task, assignee, leader, priority, deadline });
     await newTask.save();
+    const subject = `New task assigned: ${task}`;
+    const text = `Hello,\n\n You have been assigned a new task "${task}" by ${leader}.\n\nPriority: ${priority}\nDeadline: ${new Date(deadline).toLocaleDateString()}`;
+    sendEmail(assignee,subject,text);
     res.status(201).json({ success: true, data: newTask });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error assigning task' });
+    console.error('Error assigning task:', error); 
+    res.status(500).json({ success: false, message: 'Error assigning task', error: error.message });
   }
 };
 
 const getTeamProgress = async (req, res) => {
   try {
-    const userEmail = req.user.email; // Assuming req.user contains the authenticated user's info
+    const userEmail = req.user.email; 
 
     const tasks = await Task.find({ leader: userEmail });
 
@@ -64,7 +74,7 @@ const getTeamProgress = async (req, res) => {
 };
 
 const getAssignedTasks = async (req, res) => {
-    const userEmail = req.user.email; // Assuming you have user email in req.user
+    const userEmail = req.user.email; 
     try {
         const tasks = await Task.find({ assignee: userEmail });
         res.status(200).json({ success: true, data: tasks });
@@ -74,18 +84,30 @@ const getAssignedTasks = async (req, res) => {
 };
 
 const updateTaskStatus = async (req, res) => {
-    const { taskId } = req.params;
-    const { status } = req.body;
-    try {
-        const task = await Task.findByIdAndUpdate(taskId, { status }, { new: true });
-        res.status(200).json({ success: true, data: task });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Error updating task status' });
+  const { taskId } = req.params;
+  const { status } = req.body;
+  try {
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return res.status(404).json({ success: false, message: 'Task not found' });
     }
+
+  
+    if (new Date() > new Date(task.deadline)) {
+      return res.status(403).json({ success: false, message: 'Cannot update task status after the deadline' });
+    }
+
+    task.status = status;
+    await task.save();
+
+    res.status(200).json({ success: true, data: task });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error updating task status' });
+  }
 };
 const getTeamDetails = async (req, res) => {
   try {
-    const userEmail = req.user.email; // Assuming req.user contains the authenticated user's info
+    const userEmail = req.user.email; 
 
     const team = await Team.findOne({ leader: userEmail });
 
@@ -98,6 +120,23 @@ const getTeamDetails = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+const deleteTask = async (req, res) => {
+  try {
+    const { taskId } = req.params;
+    const userEmail = req.user.email;
+
+
+    const task = await Task.findOne({ _id: taskId, leader: userEmail });
+    if (!task) {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete this task' });
+    }
+
+    await Task.findByIdAndDelete(taskId);
+    res.status(200).json({ success: true, message: 'Task deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error deleting task' });
+  }
+};
 
 module.exports = {
     createTeam,
@@ -107,4 +146,5 @@ module.exports = {
     updateTaskStatus,
     deleteTeam,
     getTeamDetails,
+    deleteTask
 };

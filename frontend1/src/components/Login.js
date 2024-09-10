@@ -7,7 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();  // Use useNavigate instead of useHistory
+  const navigate = useNavigate(); 
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,12 +16,12 @@ const Login = () => {
       const data = await login(email, password);
 
       if (data.token) {
-        // Save JWT token and user data in localStorage
+        
         localStorage.setItem('token', data.token);
         localStorage.setItem('role', data.role);
         localStorage.setItem('userId', data.userId);
 
-        // Redirect based on role
+       
         if (data.role === 'team leader') {
           navigate('/dashboard/team-leader');
         } else if (data.role === 'team member') {

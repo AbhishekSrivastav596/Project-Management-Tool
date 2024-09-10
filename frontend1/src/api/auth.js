@@ -1,4 +1,3 @@
-// frondend/src/api/auth.js
 
 export const login = async (email, password) => {
   const response = await fetch('http://localhost:5000/api/login', {
@@ -8,14 +7,14 @@ export const login = async (email, password) => {
   });
   const data = await response.json();
   if (response.ok) {
-    localStorage.setItem('token', data.token); // Store the token
+    localStorage.setItem('token', data.token); 
     localStorage.setItem('role', data.role);
     localStorage.setItem('userId', data.userId);
   }
   return data;
 };
 
-// frondend/src/api/auth.js
+
 
 export const signup = async (userData) => {
   try {
@@ -42,5 +41,4 @@ export const logout = () => {
 
 export const getToken = () => {
   return localStorage.getItem('token');
-  
 };

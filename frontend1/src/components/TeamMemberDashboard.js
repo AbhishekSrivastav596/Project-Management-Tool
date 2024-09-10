@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAssignedTasks, updateTaskStatus } from '../api/task';
-// import './TeamMemberDashboard.css';  // Import the updated CSS file
+// CSS styles from the separate CSS file are now in app.css
 
 const TeamMemberDashboard = () => {
   const [tasks, setTasks] = useState([]);
@@ -18,7 +18,7 @@ const TeamMemberDashboard = () => {
     };
 
     fetchTasks();
-  }, []);
+  });
 
   const handleStatusChange = async (taskId, newStatus) => {
     const response = await updateTaskStatus(taskId, { status: newStatus });
@@ -31,15 +31,18 @@ const TeamMemberDashboard = () => {
   };
 
   return (
-    <div className="team-member-dashboard" id="team-member-dashboard-container">
-      <h2 className="dashboard-heading" id="dashboard-heading">My Tasks</h2>
-      <div className="table-wrapper" id="table-wrapper">
-        {tasks.length > 0 ? (
-          <table className="tasks-table" id="tasks-table">
+    <div id="team-member-dashboard-container">
+      <h2 id="dashboard-heading">My Tasks</h2>
+      {tasks.length > 0 ? (
+        <div id="table-wrapper">
+          <table id="tasks-table">
             <thead id="tasks-table-header">
               <tr>
                 <th>Task</th>
                 <th>Status</th>
+                <th>Priority</th>
+                <th>Deadline</th>
+                <th>Assigned by</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -48,27 +51,34 @@ const TeamMemberDashboard = () => {
                 <tr key={task._id}>
                   <td>{task.task}</td>
                   <td>{task.status}</td>
+                  <td>{task.priority}</td>
+                  <td>{new Date(task.deadline).toLocaleDateString()}</td>
+                  <td>{task.leader}</td>
                   <td>
-                    <select
-                      className="status-select"
-                      value={task.status}
-                      onChange={(e) => handleStatusChange(task._id, e.target.value)}
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Completed">Completed</option>
-                    </select>
+                    {new Date() <= new Date(task.deadline) ? (
+                      <select
+                        className="status-select"
+                        value={task.status}
+                        onChange={(e) => handleStatusChange(task._id, e.target.value)}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                      </select>
+                    ) : (
+                      <p>Deadline expired</p>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        ) : (
-          <p className="no-tasks-message" id="no-tasks-message">No tasks assigned</p>
-        )}
-      </div>
-      {errorMessage && <p className="error-message" id="error-message">{errorMessage}</p>}
-      {successMessage && <p className="success-message" id="success-message">{successMessage}</p>}
+        </div>
+      ) : (
+        <p id="no-tasks-message">No tasks assigned</p>
+      )}
+      {errorMessage && <p id="error-message">{errorMessage}</p>}
+      {successMessage && <p id="success-message">{successMessage}</p>}
     </div>
   );
 };

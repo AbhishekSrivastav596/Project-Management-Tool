@@ -1,4 +1,4 @@
-// backend/middleware/authMiddleware.js
+
 
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
@@ -27,25 +27,3 @@ const authMiddleware = async (req, res, next) => {
 };
 
 module.exports = authMiddleware;
-// const jwt = require('jsonwebtoken');
-// const User = require('../models/User');
-
-// const authMiddleware = async (req, res, next) => {
-//   const token = req.header('Authorization').replace('Bearer ', '');
-  
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     const user = await User.findById(decoded.id);
-
-//     if (!user) {
-//       throw new Error();
-//     }
-
-//     req.user = { email: user.email }; // Attach only the user's email to the request
-//     next();
-//   } catch (error) {
-//     res.status(401).json({ message: 'Please authenticate.' });
-//   }
-// };
-
-// module.exports = authMiddleware;

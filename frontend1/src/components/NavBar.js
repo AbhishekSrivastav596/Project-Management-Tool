@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../api/auth';  // Import logout API
-// import './NavBar.css';  // Importing the CSS file
+import { logout } from '../api/auth';  
+
 
 const NavBar = () => {
   const navigate = useNavigate();  
@@ -29,7 +29,7 @@ const NavBar = () => {
               <Link to="/signup" className="nav-item-link"><i className="fas fa-user-plus"></i> Signup</Link>
             </li>
             <li>
-              <Link to="/about" className="nav-item-link"><i className="fas fa-user"> </i> AboutUs</Link>
+              <Link to="/about" className="nav-item-link"><i className="fas fa-user"> </i> About Us</Link>
             </li>
           </>
         ) : (
@@ -53,7 +53,7 @@ const NavBar = () => {
               <button onClick={handleLogout} className="nav-item-logout"> <i className="fas fa-sign-out-alt"></i>Logout</button>
             </li>
             <li>
-              <Link to="/about" className="nav-item-link"><i className="fas fa-user"> </i> AboutUs</Link>
+              <Link to="/about" className="nav-item-link"><i className="fas fa-user"> </i> About Us</Link>
             </li>
           </>
         )}

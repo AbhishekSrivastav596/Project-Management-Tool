@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllUsers, getAllTasks, getAllTeams, deleteUser } from '../api/admin';
-// import './AdminDashboard.css';  // Import the CSS file
+
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -34,71 +34,77 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <h2>Admin Dashboard</h2>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      
-      <h3>All Users</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user._id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td>
-                <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="admin-dashboard">
+      <h2 className="dashboard-title">Admin Dashboard</h2>
+      {errorMessage && <p className="dashboard-error">{errorMessage}</p>}
 
-      <h3>All Tasks</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Task</th>
-            <th>Assignee</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map(task => (
-            <tr key={task._id}>
-              <td>{task.task}</td>
-              <td>{task.assignee}</td>
-              <td>{task.status}</td>
+      <div className="dashboard-section">
+        <h3 className="dashboard-heading">All Users</h3>
+        <table className="dashboard-table users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map(user => (
+              <tr key={user._id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button className="delete-button" onClick={() => handleDeleteUser(user._id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <h3>All Teams</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Team Name</th>
-            <th>Members</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teams.map(team => (
-            <tr key={team._id}>
-              <td>{team.name}</td>
-              <td>{team.members.join(', ')}</td>
+      <div className="dashboard-section">
+        <h3 className="dashboard-heading">All Tasks</h3>
+        <table className="dashboard-table tasks-table">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Assignee</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {tasks.map(task => (
+              <tr key={task._id}>
+                <td>{task.task}</td>
+                <td>{task.assignee}</td>
+                <td>{task.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="dashboard-section">
+        <h3 className="dashboard-heading">All Teams</h3>
+        <table className="dashboard-table teams-table">
+          <thead>
+            <tr>
+              <th>Team Name</th>
+              <th>Members</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teams.map(team => (
+              <tr key={team._id}>
+                <td>{team.name}</td>
+                <td>{team.members.join(', ')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
