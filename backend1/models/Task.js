@@ -18,6 +18,15 @@ const TaskSchema = new mongoose.Schema({
         type: String, // Leader email
         required: true,
     },
+    priority: {
+        type: String,
+        enum: ['Important Task', 'Very Important Task', 'Compulsory'],
+        required: true,
+    },
+    deadline: {
+        type: Date,
+        required: true,
+    },
 });
 
 module.exports = mongoose.model('Task', TaskSchema);

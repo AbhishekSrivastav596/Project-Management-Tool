@@ -20,7 +20,7 @@ const TeamMemberDashboard = () => {
     };
 
     fetchTasks();
-  }, []);
+  });
 
   const handleStatusChange = async (taskId, newStatus) => {
     const response = await updateTaskStatus(taskId, { status: newStatus });
@@ -42,6 +42,9 @@ const TeamMemberDashboard = () => {
             <tr>
               <th>Task</th>
               <th>Status</th>
+              <th>Priority</th>
+              <th>Deadline</th>
+              <th>Assigned by</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -50,7 +53,11 @@ const TeamMemberDashboard = () => {
               <tr key={task._id}>
                 <td>{task.task}</td>
                 <td>{task.status}</td>
+                <td>{task.priority}</td>
+                <td>{new Date(task.deadline).toLocaleDateString()}</td>
+                <td>{task.leader}</td>
                 <td>
+                {new Date() <= new Date(task.deadline) ? (
                   <select
                     value={task.status}
                     onChange={(e) => handleStatusChange(task._id, e.target.value)}
@@ -59,6 +66,9 @@ const TeamMemberDashboard = () => {
                     <option value="In Progress">In Progress</option>
                     <option value="Completed">Completed</option>
                   </select>
+                ) : (
+                  <p>Deadline expired</p>
+                )}
                 </td>
               </tr>
             ))}

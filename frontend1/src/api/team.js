@@ -55,3 +55,12 @@ export const getTeamDetails = async () => {
     });
     return await response.json();
 };
+export const deleteTask = async (taskId) => {
+    const response = await fetch(`http://localhost:5000/api/task/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`, // Include the JWT token
+        },
+    });
+    return await response.json();
+};

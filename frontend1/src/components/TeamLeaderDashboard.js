@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createTeam, assignTask, getTeamProgress, getTeamDetails, deleteTeam } from '../api/team.js';  // Import API calls
+import { createTeam, deleteTask,assignTask, getTeamProgress, getTeamDetails, deleteTeam } from '../api/team.js';  // Import API calls
 import { getToken } from '../api/auth.js';  
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
@@ -13,6 +13,8 @@ const TeamLeaderDashboard = () => {
   const [members, setMembers] = useState('');
   const [task, setTask] = useState('');
   const [assignee, setAssignee] = useState('');
+  const [priority, setPriority] = useState('Important Task');
+  const [deadline, setDeadline] = useState('');
   const [teamProgress, setTeamProgress] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);  // State to store team members
   const [team, setTeam] = useState(null);  // State to store team details
@@ -52,7 +54,7 @@ const TeamLeaderDashboard = () => {
     };
 
     fetchTeamDetails();
-  }, []);
+  });
 
   const handleCreateTeam = async (e) => {
     e.preventDefault();
@@ -80,7 +82,8 @@ const TeamLeaderDashboard = () => {
   const handleAssignTask = async (e) => {
     e.preventDefault();
     try {
-      const response = await assignTask({ task, assignee });
+      const response = await assignTask({ task, assignee ,priority, deadline });
+      console.log(response);
       if (response.success) {
         setSuccessMessage('Task assigned successfully');
         setErrorMessage('');
@@ -145,6 +148,22 @@ const TeamLeaderDashboard = () => {
         borderWidth: 1,
       }]
     };
+  };
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const response = await deleteTask(taskId);
+      if (response.success) {
+        setSuccessMessage('Task deleted successfully');
+        setErrorMessage('');
+        setTeamProgress(teamProgress.filter(task => task._id !== taskId)); // Update team progress state
+      } else {
+        setErrorMessage(response.message || 'Error deleting task');
+        setSuccessMessage('');
+      }
+    } catch (error) {
+      setErrorMessage('Error deleting task');
+      setSuccessMessage('');
+    }
   };
 
   return (
@@ -219,11 +238,64 @@ const TeamLeaderDashboard = () => {
               ))}
             </select>
           </div>
+          <div className="form-group">
+            <label>Priority:</label>
+            <select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              required
+            >
+              <option value="Important Task">Important Task</option>
+              <option value="Very Important Task">Very Important Task</option>
+              <option value="Compulsory">Compulsory</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Deadline:</label>
+            <input
+              type="date"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+              required
+            />
+          </div>
 
           <button type="submit">Assign Task</button>
         </form>
       </div>
-
+      {/* View team progress in text format */}
+      <div className="team-progress-section">
+        <h3>View Team Progress</h3>
+        {teamProgress.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Assigned To</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Deadline</th>
+              </tr>
+            </thead>
+            <tbody>
+              {teamProgress.map((progress, index) => (
+                <tr key={index}>
+                  <td>{progress.task}</td>
+                  <td>{progress.assignee}</td>
+                  <td>{progress.status}</td>
+                  <td>{progress.priority}</td>
+                  <td>{new Date(progress.deadline).toLocaleDateString()}</td>
+                  <td>
+                    <button onClick={() => handleDeleteTask(progress._id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No progress available</p>
+        )}
+      </div>         
       {/* View Team Progress Section */}
       <div className="team-progress-section">
         <h3>View Team Progress</h3>

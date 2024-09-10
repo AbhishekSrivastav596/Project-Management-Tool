@@ -36,14 +36,23 @@ const deleteTeam = async (req, res) => {
 };
 
 const assignTask = async (req, res) => {
-  const { task, assignee } = req.body;
+  const { task, assignee, priority, deadline } = req.body;
   try {
     const leader = req.user.email; // Get the leader's email from the authenticated user
-    const newTask = new Task({ task, assignee, leader });
+    const newTask = new Task({ task, assignee, leader, priority, deadline });
+    
+    // Validate the task object before saving
+    const validationError = newTask.validateSync();
+    if (validationError) {
+      console.error('Validation Error:', validationError); // Log validation error
+      return res.status(400).json({ success: false, message: 'Validation Error', error: validationError.message });
+    }
+
     await newTask.save();
     res.status(201).json({ success: true, data: newTask });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error assigning task' });
+    console.error('Error assigning task:', error); // Log the error
+    res.status(500).json({ success: false, message: 'Error assigning task', error: error.message });
   }
 };
 
@@ -74,14 +83,26 @@ const getAssignedTasks = async (req, res) => {
 };
 
 const updateTaskStatus = async (req, res) => {
-    const { taskId } = req.params;
-    const { status } = req.body;
-    try {
-        const task = await Task.findByIdAndUpdate(taskId, { status }, { new: true });
-        res.status(200).json({ success: true, data: task });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Error updating task status' });
+  const { taskId } = req.params;
+  const { status } = req.body;
+  try {
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return res.status(404).json({ success: false, message: 'Task not found' });
     }
+
+    // Check if the deadline has expired
+    if (new Date() > new Date(task.deadline)) {
+      return res.status(403).json({ success: false, message: 'Cannot update task status after the deadline' });
+    }
+
+    task.status = status;
+    await task.save();
+
+    res.status(200).json({ success: true, data: task });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error updating task status' });
+  }
 };
 const getTeamDetails = async (req, res) => {
   try {
@@ -98,6 +119,23 @@ const getTeamDetails = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+const deleteTask = async (req, res) => {
+  try {
+    const { taskId } = req.params;
+    const userEmail = req.user.email;
+
+    // Ensure the user is the leader of the task
+    const task = await Task.findOne({ _id: taskId, leader: userEmail });
+    if (!task) {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete this task' });
+    }
+
+    await Task.findByIdAndDelete(taskId);
+    res.status(200).json({ success: true, message: 'Task deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error deleting task' });
+  }
+};
 
 module.exports = {
     createTeam,
@@ -107,4 +145,5 @@ module.exports = {
     updateTaskStatus,
     deleteTeam,
     getTeamDetails,
+    deleteTask
 };
