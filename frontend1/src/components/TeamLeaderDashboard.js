@@ -212,7 +212,7 @@ const TeamLeaderDashboard = () => {
           <h3>Create Team</h3>
           <form onSubmit={handleCreateTeam}>
             <input type="text" value={teamName} onChange={(e) => setTeamName(e.target.value)} placeholder="Team Name" />
-            <input type="text" value={members} onChange={(e) => setMembers(e.target.value)} placeholder="Members (emails)" />
+            <input type="text" value={members} onChange={(e) => setMembers(e.target.value)} placeholder="Members (emails csv)" />
             <button type="submit">Create</button>
           </form>
         </div>
