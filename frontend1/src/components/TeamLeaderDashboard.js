@@ -19,8 +19,10 @@ const TeamLeaderDashboard = () => {
   const [team, setTeam] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
+  const [email, setEmail] = useState('');
   useEffect(() => {
+   const userEmail = localStorage.getItem('email');
+    setEmail(userEmail);
     const fetchTeamProgress = async () => {
       try {
         const response = await getTeamProgress();
@@ -51,7 +53,7 @@ const TeamLeaderDashboard = () => {
     };
 
     fetchTeamDetails();
-  });
+  },[]);
 
   const handleCreateTeam = async (e) => {
     e.preventDefault();
@@ -165,8 +167,8 @@ const TeamLeaderDashboard = () => {
           
         </ul>
       </div> */}
-
       <div className="dashboard-content">
+      <h2 className='name-showing-leader'>Welcome, {email}</h2>
         <div className="chart-table-container">
           <div className="team-progress">
             <div className="chart-container">

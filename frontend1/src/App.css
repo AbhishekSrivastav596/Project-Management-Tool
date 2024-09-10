@@ -943,6 +943,22 @@
 .teams-table {
   background-color: #ede7f6;
 }
+.name-showing-admin{
+  margin-left: 380px;
+  color: white;
+}
+.name-showing-leader{
+  text-align: center;
+  color: white;
+  margin-top: -10px;
+  /* padding-bottom: 15px; */
+}
+.name-showing-member{
+  text-align: center;
+  color: white;
+  margin-top: -10px;
+  /* padding-bottom: 15px; */
+}
 
 
 

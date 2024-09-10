@@ -6,8 +6,12 @@ const TeamMemberDashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+ const [email, setEmail] = useState('');
 
   useEffect(() => {
+  
+    const userEmail = localStorage.getItem('email');
+    setEmail(userEmail);
     const fetchTasks = async () => {
       const response = await getAssignedTasks();
       if (response.success) {
@@ -32,6 +36,7 @@ const TeamMemberDashboard = () => {
 
   return (
     <div id="team-member-dashboard-container">
+      <h2 className='name-showing-member'>Welcome, {email}</h2>
       <h2 id="dashboard-heading">My Tasks</h2>
       {tasks.length > 0 ? (
         <div id="table-wrapper">

@@ -7,8 +7,11 @@ const AdminDashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [teams, setTeams] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
+    const userEmail = localStorage.getItem('email');
+    setEmail(userEmail);
     const fetchData = async () => {
       try {
         const usersData = await getAllUsers();
@@ -35,6 +38,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
+      <h2 className='name-showing-admin'>Welcome, {email}</h2>
       <h2 className="dashboard-title">Admin Dashboard</h2>
       {errorMessage && <p className="dashboard-error">{errorMessage}</p>}
 

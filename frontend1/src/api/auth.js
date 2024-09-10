@@ -10,6 +10,7 @@ export const login = async (email, password) => {
     localStorage.setItem('token', data.token); 
     localStorage.setItem('role', data.role);
     localStorage.setItem('userId', data.userId);
+    localStorage.setItem('email', email);
   }
   return data;
 };
@@ -37,6 +38,7 @@ export const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('role');
   localStorage.removeItem('userId');
+  localStorage.removeItem('email');
 };
 
 export const getToken = () => {
