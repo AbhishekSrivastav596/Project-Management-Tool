@@ -10,6 +10,7 @@ import AdminDashboard from './components/adminDashboard';  // Import AdminDashbo
 import VideoBackground from './components/VideoBackground';
 import Footer from './components/Footer';
 import AboutUs from './components/AboutUs';
+import './App.css';
 
 const App = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -20,8 +21,9 @@ const App = () => {
 // dvdb
   return (
     <Router>
-      {/* <VideoBackground onVideoLoad={handleVideoLoad} />
-      {videoLoaded ? ( */}
+      
+       <VideoBackground onVideoLoad={handleVideoLoad} />
+      {videoLoaded ? ( 
         <>
           <NavBar />
           <Routes>
@@ -35,9 +37,9 @@ const App = () => {
           </Routes>
           <Footer />
         </>
-      {/* ) : (
+      ) : (
         <div className="loading-overlay">Loading...</div>
-      )} */}
+      )} 
     </Router>
   );
 };

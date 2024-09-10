@@ -148,11 +148,11 @@ const TeamLeaderDashboard = () => {
   };
 
   return (
-    <div className="team-leader-dashboard-container">
+    <div className="team-leader-dashboard">
       <h2>Team Leader Dashboard</h2>
 
       {/* Create Team Section */}
-      <div className="create-team-section">
+      <div className="create-team">
         <h3>Create Team</h3>
         <form onSubmit={handleCreateTeam}>
           <div className="form-group">
@@ -181,7 +181,7 @@ const TeamLeaderDashboard = () => {
 
       {/* Display Team Section */}
       {team && (
-        <div className="team-details-section">
+        <div className="team-details">
           <h3>Team Details</h3>
           <p><strong>Team Name:</strong> {team.name}</p>
           <p><strong>Members:</strong> {team.members.join(', ')}</p>
@@ -190,7 +190,7 @@ const TeamLeaderDashboard = () => {
       )}
 
       {/* Assign Task Section */}
-      <div className="assign-task-section">
+      <div className="assign-task">
         <h3>Assign Task</h3>
         <form onSubmit={handleAssignTask}>
           <div className="form-group">
@@ -225,9 +225,9 @@ const TeamLeaderDashboard = () => {
       </div>
 
       {/* View Team Progress Section */}
-      <div className="team-progress-section">
+      <div className="team-progress">
         <h3>View Team Progress</h3>
-        <div style={{ width: '100%', maxWidth: '600px', height: '400px', margin: '0 auto' }}>
+        <div className="chart-container">
           <Pie 
             data={getPieChartData()} 
             options={{

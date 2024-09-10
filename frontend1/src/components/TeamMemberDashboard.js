@@ -1,8 +1,6 @@
-// frondend/src/components/TeamMemberDashboard.js
-
 import React, { useEffect, useState } from 'react';
 import { getAssignedTasks, updateTaskStatus } from '../api/task';
-import './TeamMemberDashboard.css'
+// import './TeamMemberDashboard.css';  // Import the updated CSS file
 
 const TeamMemberDashboard = () => {
   const [tasks, setTasks] = useState([]);
@@ -33,42 +31,44 @@ const TeamMemberDashboard = () => {
   };
 
   return (
-    <div>
-      <h2>My Tasks</h2>
-      {tasks.length > 0 ? (
-        
-        <table>
-          <thead>
-            <tr>
-              <th>Task</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map(task => (
-              <tr key={task._id}>
-                <td>{task.task}</td>
-                <td>{task.status}</td>
-                <td>
-                  <select
-                    value={task.status}
-                    onChange={(e) => handleStatusChange(task._id, e.target.value)}
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                  </select>
-                </td>
+    <div className="team-member-dashboard" id="team-member-dashboard-container">
+      <h2 className="dashboard-heading" id="dashboard-heading">My Tasks</h2>
+      <div className="table-wrapper" id="table-wrapper">
+        {tasks.length > 0 ? (
+          <table className="tasks-table" id="tasks-table">
+            <thead id="tasks-table-header">
+              <tr>
+                <th>Task</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No tasks assigned</p>
-      )}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      {successMessage && <p className="success-message">{successMessage}</p>}
+            </thead>
+            <tbody id="tasks-table-body">
+              {tasks.map(task => (
+                <tr key={task._id}>
+                  <td>{task.task}</td>
+                  <td>{task.status}</td>
+                  <td>
+                    <select
+                      className="status-select"
+                      value={task.status}
+                      onChange={(e) => handleStatusChange(task._id, e.target.value)}
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="no-tasks-message" id="no-tasks-message">No tasks assigned</p>
+        )}
+      </div>
+      {errorMessage && <p className="error-message" id="error-message">{errorMessage}</p>}
+      {successMessage && <p className="success-message" id="success-message">{successMessage}</p>}
     </div>
   );
 };

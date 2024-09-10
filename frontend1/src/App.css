@@ -1,3 +1,635 @@
-/* body{
-  background-color: antiquewhite;
-} */
+/* General styles */
+.homepage {
+  display: flex;
+  color: #e1e7eb; /* Light blue color for general text */
+  font-family: 'Arial', sans-serif;
+  position: relative; /* Ensure positioning context for child elements */
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 200px;
+  background-color: #473675;
+  padding: 20px;
+  padding-top: 100px; /* Space for navbar */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 500; /* Lower z-index to ensure it is below the navbar */
+}
+
+/* Sidebar menu styling */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #565287;
+  text-align: center;
+  cursor: pointer;
+  color: rgb(222, 227, 234);
+  transition: background-color 0.3s;
+}
+
+.sidebar li:hover {
+  background-color: #1a45bc;
+}
+
+/* Content styling */
+.content {
+  margin-left: 220px; /* Ensure content starts after the sidebar */
+  padding: 20px;
+  padding-top: 80px; /* Space for navbar */
+  width: calc(100% - 220px); /* Adjust width to accommodate sidebar */
+  position: relative;
+  z-index: 100; /* Ensure content is above sidebar but below navbar */
+  overflow: hidden; /* Ensure no content is cropped */
+}
+
+/* Section styling for full viewport height */
+.intro-section, .features-section, .collaboration-section, .analytics-section, .cta-section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* Hero section */
+.hero-section {
+  height: 100vh; /* Full viewport height */
+  
+  justify-content: center;
+  align-items: flex-start; /* Center vertically */
+  text-align: center;
+  padding: 0 10px; /* Add padding to ensure content isn't too close to the edges */
+}
+
+.hero-title {
+  font-size: 3em;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #a0d2f8; /* Light blue color for the welcome text */
+  border-radius: 8px;
+  text-align: center;
+}
+.hero-title2 {
+  font-size: 3em;
+  padding: 20px;
+  background-color: rgba(86, 105, 135, 0.4);
+  background: linear-gradient(to right, #dfa0f8, #015b92);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold; /* Light blue color for the welcome text */
+  border-radius: 8px;
+  text-align: center;
+}
+.hero-h3{
+  padding: 10px 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: rgba(54, 68, 84, 0.4);
+  color: #a3c4e8;
+}
+/* Headings with padding and background */
+.section-heading {
+  font-size: 2em;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #d0e6f7; /* Light blue for headings */
+  border-radius: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Paragraph content */
+.intro-text, .features-text, .collaboration-text, .analytics-text, .cta-text {
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #d0e6f7; /* Light blue for paragraph text */
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* CTA section */
+.cta-section {
+  text-align: center;
+}
+
+.cta-heading {
+  font-size: 2em;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #d0e6f7; /* Light blue for CTA heading */
+  border-radius: 8px;
+}
+
+.cta-button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #ff9933;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #e68a00;
+}
+
+/* Navbar styling */
+.navbar-container {
+  background: linear-gradient(to right, #312c50, #1a1a1a);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed; /* Ensure the navbar stays fixed at the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Higher z-index to hover above sidebar */
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+/* Logo styling */
+.nav-logo-container {
+  font-size: 1.8em;
+  color: #ffffff;
+}
+
+.nav-logo-text {
+  text-decoration: none;
+  color: #ecf0f1;
+  transition: color 0.3s ease;
+}
+
+.nav-logo-text:hover {
+  color: #3498db;
+}
+
+/* Menu styling */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item-link {
+  text-decoration: none;
+  font-size: 1.2em;
+  color: #ecf0f1;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-item-link i {
+  font-size: 1.4em; /* Adjust icon size as needed */
+}
+
+.nav-item-link:hover {
+  background-color: #3498db;
+  border-radius: 5px;
+  color: #ffffff;
+}
+
+.nav-item-logout {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2em;
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-item-logout i {
+  font-size: 1.4em; /* Adjust icon size as needed */
+}
+
+.nav-item-logout:hover {
+  background-color: #5ba3c7;
+}
+
+.navbar-container {
+  overflow: visible; /* Ensure no content is cropped */
+}
+
+
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+
+/* General page styling */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: transparent /* Dark gradient background */
+}
+
+/* Form container styling */
+.login-form-container {
+  background-color: #89a6c3;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Heading styling */
+.login-heading {
+  font-size: 2em;
+  color: #2b2243; /* Light blue color for heading */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Error message styling */
+.error-message {
+  color: #e74c3c; /* Red color for error messages */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Form styling */
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-label {
+  display: block;
+  font-size: 1.2em;
+  color: #294357; /* Light blue for labels */
+  margin-bottom: 5px;
+}
+
+/* Input field styling */
+.form-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 5px;
+  border: 1px solid #34495e;
+  background-color: #1e2a38; /* Dark background for input fields */
+  color: #ffffff; /* White text color for input fields */
+}
+
+/* Submit button styling */
+.submit-button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #425968; /* Light blue color for button */
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #2980b9; /* Darker blue color on hover */
+}
+
+
+
+/* General page styling */
+.signup-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: transparent/* Dark gradient background */
+}
+
+/* Form container styling */
+.signup-form-container {
+  background-color: #8ca3ba;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Heading styling */
+.signup-heading {
+  font-size: 2em;
+  color: #283a48; /* Light blue color for heading */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Error message styling */
+.error-message {
+  color: #e74c3c; /* Red color for error messages */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Form styling */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-label {
+  display: block;
+  font-size: 1.2em;
+  color: #1e4969; /* Light blue for labels */
+  margin-bottom: 5px;
+}
+
+/* Input field styling */
+.form-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 5px;
+  border: 1px solid #34495e;
+  background-color: #374b62; /* Dark background for input fields */
+  color: #ffffff; /* White text color for input fields */
+}
+
+/* Select field styling */
+.form-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border-radius: 5px;
+  border: 1px solid #34495e;
+  background-color: #1e2a38; /* Dark background for select field */
+  color: #ffffff; /* White text color for select field */
+}
+
+/* Submit button styling */
+.submit-button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #4f748c; /* Light blue color for button */
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #2980b9; /* Darker blue color on hover */
+}
+
+#team-member-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full screen height */
+  background-color: transparent;
+}
+
+#dashboard-heading {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #9ad0e9;
+}
+
+#table-wrapper {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #d9d8fc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#tasks-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#tasks-table-header th {
+  background-color: #599fea;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+#tasks-table-body td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.status-select {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#no-tasks-message {
+  font-size: 1.2rem;
+  color: #352652;
+}
+
+#error-message {
+  color: red;
+  margin-top: 20px;
+}
+
+#success-message {
+  color: green;
+  margin-top: 20px;
+}
+
+
+
+/* Container animation */
+.about-us-container-blue {
+  background-color: transparent; /* Dark blue background */
+  color: #ffffff; /* White text color */
+  padding: 50px;
+  border-radius: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1.2s ease-in-out forwards;
+}
+
+/* Heading animation */
+.about-us-heading-blue {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #ffffff;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+  animation-delay: 0.5s;
+}
+
+/* Text container animation */
+.about-us-content-blue {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-text-blue {
+  padding: 20px;
+  background-color: #2a507b; /* Lighter blue for content background */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  animation: fadeInUp 1.5s ease-in-out forwards;
+  animation-delay: 0.8s;
+}
+
+/* Subheadings */
+.about-subheading-blue {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #ffffff;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInUp 1.3s ease-in-out forwards;
+  animation-delay: 1s;
+}
+
+/* Paragraph animations */
+.about-paragraph-blue {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #e0e0e0; /* Slightly lighter text */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1.4s ease-in-out forwards;
+  animation-delay: 1.2s;
+}
+
+/* Keyframes for fade-in and slide-up animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-us-container-blue {
+    padding: 20px;
+  }
+
+  .about-us-heading-blue {
+    font-size: 2.5rem;
+  }
+
+  .about-text-blue {
+    padding: 15px;
+  }
+
+  .about-subheading-blue {
+    font-size: 1.5rem;
+  }
+
+  .about-paragraph-blue {
+    font-size: 1rem;
+  }
+}
+
+/* Footer Component Styles */
+
+.custom-footer {
+  background: linear-gradient(to right, #502c6b, #31316e); /* Purple to Blue gradient */
+  color: #ffffff;
+  padding: 20px 0;
+  padding-left: 20px;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure the footer hovers above other elements */
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-text {
+  font-size: 1.2rem;
+  /* margin-bottom: 10px; */
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-link {
+  color: #a0d2f8; /* Light blue link color */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
+

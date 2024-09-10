@@ -24,7 +24,7 @@ const VideoBackground = ({ onVideoLoad }) => {
   return (
     <div className="video-background-container">
       <video ref={videoRef} autoPlay loop muted className="background-video">
-        <source src={`/background4.mp4`} type="video/mp4" />
+        <source src={`/background2.mp4`} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>

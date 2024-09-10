@@ -1,16 +1,14 @@
-// src/components/Footer.js
-
 import React from 'react';
-import './Footer.css';
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      {/* <h3>Project Management Tool</h3> */}
-      <p>
-        &copy; {new Date().getFullYear()} Project Management Tool. All rights reserved.
-      </p>
-    
+    <footer className="custom-footer">
+      <div className="footer-content">
+        <p className="footer-text">© 2024 TaskVerse. All Rights Reserved.</p>
+        <div className="footer-links">
+       
+        </div>
+      </div>
     </footer>
   );
 };
