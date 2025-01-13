@@ -5,8 +5,8 @@ const connectDB = async () => {
   const PASSWORD = process.env.DB_PASS;
   const DB_NAME = process.env.DB_NAME;
   try {
-    await mongoose.connect(`mongodb+srv://${USER_NAME}:${PASSWORD}@merncluster.2k4wx.mongodb.net/${DB_NAME}?retryWrites=true&w=majority&appName=merncluster`
-    );
+    await mongoose.connect(`mongodb+srv://abhisheksrivastav596:abhishek0000@merncluster.2ao7u.mongodb.net/myDatabase?retryWrites=true&w=majority&appName=MernCluster`)
+
     console.log('MongoDB Connected');
   } catch (err) {
     console.error(err.message);
