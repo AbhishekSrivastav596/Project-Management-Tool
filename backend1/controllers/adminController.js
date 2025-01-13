@@ -45,7 +45,7 @@ const deleteUser = async (req, res) => {
     await Task.deleteMany({ leader: user.email });
 
     // Delete all teams created by the user
-    await Team.deleteMany({ leader: user.email });
+    await Team.deleteOne({ leader: user.email });
 
     res.status(200).json({ message: 'User, tasks, and teams deleted successfully' });
   } catch (error) {

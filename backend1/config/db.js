@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 const connectDB = async () => {
-  const USER_NAME = 'ankit_saini85';
-  const PASSWORD = 'ankit7500057688';
-  const DB_NAME = 'merndb8';
+  const USER_NAME = process.env.DB_USER;
+  const PASSWORD = process.env.DB_PASS;
+  const DB_NAME = process.env.DB_NAME;
   try {
     await mongoose.connect(`mongodb+srv://${USER_NAME}:${PASSWORD}@merncluster.2k4wx.mongodb.net/${DB_NAME}?retryWrites=true&w=majority&appName=merncluster`
     );
